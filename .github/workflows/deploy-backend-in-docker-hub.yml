@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/shar3d_backend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/shar3d_backend1:latest

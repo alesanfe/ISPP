@@ -7,5 +7,6 @@ django.setup()
 
 from users.models import CustomUser
 
+print("Loading data")
 if not CustomUser.objects.exists():
     call_command("loaddata", "./population/01_Users.json", "./population/02_Products.json")

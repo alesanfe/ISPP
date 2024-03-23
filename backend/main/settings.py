@@ -18,17 +18,14 @@ import dj_database_url
 import paypalrestsdk
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 RUTA_BACKEND = os.getenv('RUTA_BACKEND')
 RUTA_FRONTEND = os.getenv('RUTA_FRONTEND')
 EXTERNAL_DATABASE = os.getenv('EXTERNAL_DATABASE')
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -37,10 +34,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ue=8vh&2&4r_wy3*slet3m-kt76j3)rd!8bg$l%khu7*e0fghy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -101,13 +97,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 if EXTERNAL_DATABASE == 'True':
     DATABASES = {
         'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
     }
+
 else:
     DATABASES = {
         'default': {
@@ -115,7 +111,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -135,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -147,11 +141,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -221,12 +213,11 @@ AUTH_USER_MODEL = 'users.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 PAYPAL_CLIENT_ID = 'AUkHmwH6ogfAD37dz96UYFN01SXwVoAL-Cjj1lSkW4INLdjoFW5SPhrYV1Ilh9iY47TiiIBD93ld2W5g'
 PAYPAL_SECRET_KEY = 'EBx2jC9fTG5kVeLxxobG9b3NkFgV0PnfW1yQTTHH0oJjb5x3tqKpS1bdpMi6u79xWBWBb49nHw8OY5vw'
 
 paypalrestsdk.configure({
-    'mode': 'sandbox',  
+    'mode': 'sandbox',
     'client_id': PAYPAL_CLIENT_ID,
     'client_secret': PAYPAL_SECRET_KEY,
 })

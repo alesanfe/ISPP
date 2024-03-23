@@ -13,21 +13,22 @@ WORKDIR $DockerHOME
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV DATABASE_URL postgres://shar3d_user:DUiiIGYBzjV7e1Yhel3NlRjXXHqlddea@dpg-cnvajqv79t8c73d5p000-a.oregon-postgres.render.com/shar3d
+ENV RUTA_BACKEND http://localhost:8000
+ENV RUTA_FRONTEND http://localhost:5173
+ENV EXTERNAL_DATABASE False
 
 # install dependencies
 RUN pip install --upgrade pip
 
 # Install necessary system libraries
 RUN apt-get update \
-    && apt-get install -y libx11-6 libgl1-mesa-glx libxrender1 libfontconfig1 \
+    && apt-get install -y libx11-6 libgl1-mesa-glx libxrender1 libfontconfig1 rsync \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # copy whole project to your docker home directory.
 COPY ./ $DockerHOME
-
-# Install Gunicorn
-RUN pip install gunicorn
 
 # Install application dependencies
 RUN pip install -r ./requirements.txt
@@ -43,7 +44,7 @@ RUN python load_data.py
 EXPOSE 8000
 
 # start server using Gunicorn
-CMD gunicorn main.wsgi:application --bind 0.0.0.0:8000
+CMD python manage.py runserver 0.0.0.0:8000
 
 
 

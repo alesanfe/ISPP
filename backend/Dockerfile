@@ -38,7 +38,7 @@ RUN echo "Checking if database is populated..."
 RUN python ./manage.py shell -c "from django.contrib.auth.models import User; user_count = User.objects.count(); print('User count:', user_count); exit(user_count == 0)"
 
 # Run loaddata only if the database is empty
-RUN python -c "import sys; from django.contrib.auth.models import User; sys.exit(0 if User.objects.exists() else 1)" \
+RUN python -c "import sys; from users.models import CustomUser; sys.exit(0 if CustomUser.objects.exists() else 1)" \
     && python ./manage.py loaddata ./population/01_Users.json ./population/02_Products.json
 
 # port where the Django app runs

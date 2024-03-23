@@ -32,13 +32,17 @@ WORKDIR $DockerHOME
 RUN pip install -r ./requirements.txt
 RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
-RUN python ./manage.py loaddata ./population/01_Users.json ./population/02_Products.json
+
+# Check if there are existing records in the User model
+RUN python -c 'import django; django.setup(); from django.contrib.auth.models import User; exit(1 if User.objects.exists() else 0)' \
+    && python ./manage.py loaddata ./population/01_Users.json ./population/02_Products.json
 
 # port where the Django app runs
 EXPOSE 8000
 
 # start server
 CMD python ./manage.py runserver 0.0.0.0:8000
+
 
 
 # To build -> docker build -t my-django-app .

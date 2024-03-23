@@ -33,13 +33,10 @@ RUN pip install -r ./requirements.txt
 RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
 
-# Custom command to check if data is loaded
-RUN echo "Checking if database is populated..."
-RUN python ./manage.py shell -c "from users.models import CustomUser; user_count = CustomUser.objects.count(); print('User count:', user_count); exit(user_count == 0)"
-
-# Run loaddata only if the database is empty
-RUN python -c "import sys; from users.models import CustomUser; sys.exit(0 if CustomUser.objects.exists() else 1)" \
-    && python ./manage.py loaddata ./population/01_Users.json ./population/02_Products.json
+# Custom script to check if data is loaded
+COPY check_data.sh $DockerHOME/check_data.sh
+RUN chmod +x $DockerHOME/check_data.sh
+RUN $DockerHOME/check_data.sh
 
 # port where the Django app runs
 EXPOSE 8000

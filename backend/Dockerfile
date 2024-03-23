@@ -32,6 +32,7 @@ WORKDIR $DockerHOME
 RUN pip install -r ./requirements.txt
 RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
+RUN python ./manage.py loaddata ./population/01_Users.json ./population/02_Products.json
 
 # port where the Django app runs
 EXPOSE 8000

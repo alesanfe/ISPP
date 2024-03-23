@@ -33,6 +33,9 @@ RUN pip install -r ./requirements.txt
 RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
 
+# Set the DJANGO_SETTINGS_MODULE environment variable
+ENV DJANGO_SETTINGS_MODULE=main.settings
+
 # Custom script to check if data is loaded
 RUN chmod +x $DockerHOME/check_data.sh
 RUN $DockerHOME/check_data.sh

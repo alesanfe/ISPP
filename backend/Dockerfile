@@ -33,8 +33,12 @@ RUN pip install -r ./requirements.txt
 RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
 
-# Check if there are existing records in the User model
-RUN python -c 'import django; django.setup(); from django.contrib.auth.models import User; exit(1 if User.objects.exists() else 0)' \
+# Custom command to check if data is loaded
+RUN echo "Checking if database is populated..."
+RUN python ./manage.py shell -c "from django.contrib.auth.models import User; user_count = User.objects.count(); print('User count:', user_count); exit(user_count == 0)"
+
+# Run loaddata only if the database is empty
+RUN python -c "import sys; from django.contrib.auth.models import User; sys.exit(0 if User.objects.exists() else 1)" \
     && python ./manage.py loaddata ./population/01_Users.json ./population/02_Products.json
 
 # port where the Django app runs
@@ -42,8 +46,6 @@ EXPOSE 8000
 
 # start server
 CMD python ./manage.py runserver 0.0.0.0:8000
-
-
 
 # To build -> docker build -t my-django-app .
 # To run -> docker run -p 8000:8000 my-django-app

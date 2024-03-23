@@ -33,15 +33,6 @@ RUN pip install -r ./requirements.txt
 RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
 
-# Set the DJANGO_SETTINGS_MODULE environment variable
-ENV DJANGO_SETTINGS_MODULE=main.settings
-
-# Copy and set permissions for the check data script
-RUN chmod +x $DockerHOME/check_data.sh
-
-# Execute the check data script on container start
-ENTRYPOINT ["$DockerHOME/check_data.sh"]
-
 # port where the Django app runs
 EXPOSE 8000
 

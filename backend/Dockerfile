@@ -13,10 +13,6 @@ WORKDIR $DockerHOME
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DATABASE_URL postgres://shar3d_user:DUiiIGYBzjV7e1Yhel3NlRjXXHqlddea@dpg-cnvajqv79t8c73d5p000-a.oregon-postgres.render.com/shar3d
-ENV RUTA_BACKEND http://localhost:8000
-ENV RUTA_FRONTEND http://localhost:5173
-ENV EXTERNAL_DATABASE False
 
 # install dependencies
 RUN pip install --upgrade pip

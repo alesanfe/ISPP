@@ -35,7 +35,7 @@ RUN python ./manage.py migrate
 
 # Custom command to check if data is loaded
 RUN echo "Checking if database is populated..."
-RUN python ./manage.py shell -c "from django.contrib.auth.models import User; user_count = User.objects.count(); print('User count:', user_count); exit(user_count == 0)"
+RUN python ./manage.py shell -c "from users.models import CustomUser; user_count = CustomUser.objects.count(); print('User count:', user_count); exit(user_count == 0)"
 
 # Run loaddata only if the database is empty
 RUN python -c "import sys; from users.models import CustomUser; sys.exit(0 if CustomUser.objects.exists() else 1)" \

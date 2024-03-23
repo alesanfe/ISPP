@@ -106,7 +106,7 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 if EXTERNAL_DATABASE == 'True':
     DATABASES = {
-        'default': dj_database_url.parse(os.getenv('DATABASE_URL')) # postgres://shar3d_user:DUiiIGYBzjV7e1Yhel3NlRjXXHqlddea@dpg-cnvajqv79t8c73d5p000-a/shar3d
+        'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
     }
 else:
     DATABASES = {
@@ -166,6 +166,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 if EXTERNAL_DATABASE == 'True':
     CSRF_TRUSTED_ORIGINS = [RUTA_BACKEND, RUTA_FRONTEND]
+    ALLOWED_ORIGINS = [RUTA_BACKEND, RUTA_FRONTEND]
 
 # Rest framework settings
 REST_FRAMEWORK = {

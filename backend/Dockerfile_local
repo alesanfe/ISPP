@@ -24,7 +24,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # copy whole project to your docker home directory.
-COPY ./backend $DockerHOME
+COPY ./ $DockerHOME
 
 # Install Gunicorn
 RUN pip install gunicorn
@@ -36,15 +36,16 @@ RUN pip install -r ./requirements.txt
 RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
 
-
 # Check if there is any user in the database
 RUN python load_data.py
 
 # port where the Django app runs
 EXPOSE 8000
 
-# start server
+# start server using Gunicorn
 CMD gunicorn main.wsgi:application --bind 0.0.0.0:8000
+
+
 
 
 # To build -> docker build -t my-django-app .

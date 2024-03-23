@@ -34,7 +34,6 @@ RUN python ./manage.py makemigrations
 RUN python ./manage.py migrate
 
 # Custom script to check if data is loaded
-COPY check_data.sh $DockerHOME/check_data.sh
 RUN chmod +x $DockerHOME/check_data.sh
 RUN $DockerHOME/check_data.sh
 

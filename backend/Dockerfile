@@ -36,15 +36,18 @@ RUN python ./manage.py migrate
 # Set the DJANGO_SETTINGS_MODULE environment variable
 ENV DJANGO_SETTINGS_MODULE=main.settings
 
-# Custom script to check if data is loaded
+# Copy and set permissions for the check data script
 RUN chmod +x $DockerHOME/check_data.sh
-RUN $DockerHOME/check_data.sh
+
+# Execute the check data script on container start
+ENTRYPOINT ["$DockerHOME/check_data.sh"]
 
 # port where the Django app runs
 EXPOSE 8000
 
 # start server
 CMD python ./manage.py runserver 0.0.0.0:8000
+
 
 # To build -> docker build -t my-django-app .
 # To run -> docker run -p 8000:8000 my-django-app
